@@ -3,3 +3,5 @@
 Makefile
 moc_*
 qrc_*
+qtify
+tmp
