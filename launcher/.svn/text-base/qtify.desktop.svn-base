@@ -1,0 +1,8 @@
+[Desktop Entry]
+Categories=Qt;
+Encoding=UTF-8
+Version=0.0.1_3
+Type=Application
+Name=Qtify
+Exec=/usr/bin/qtify
+Icon=qtify

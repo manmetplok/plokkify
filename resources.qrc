@@ -1,0 +1,17 @@
+<RCC>
+    <qresource prefix="/">
+        <file>icons/qtify.png</file>
+        <file>res/next.png</file>
+        <file>res/pause.png</file>
+        <file>res/play.png</file>
+        <file>res/prev.png</file>
+        <file>res/qtify.png</file>
+        <file>res/rating_1.png</file>
+        <file>res/rating_2.png</file>
+        <file>res/rating_3.png</file>
+        <file>res/rating_4.png</file>
+        <file>res/rating_5.png</file>
+        <file>res/shuffleon.png</file>
+        <file>res/shuffleoff.png</file>
+    </qresource>
+</RCC>
