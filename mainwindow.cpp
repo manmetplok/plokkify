@@ -122,6 +122,17 @@ void MainWindow::on_LoginFailed(sp_session *s, sp_error e) {
 
 void MainWindow::on_RootlistLoaded(sp_playlistcontainer *pc,void *userdata) {
     this->sw->pc = pc;
+
+    /* Clear Treeview */
+
+    this->ui->twRootlist->clear();
+    qDebug() << "Rootlist loaded";
+    for(int i=0;i<sp_playlistcontainer_num_playlists(this->sw->pc);i++) {
+        sp_playlist *pl2 = sp_playlistcontainer_playlist(this->sw->pc, i);
+        QTreeWidgetItem *l = new QTreeWidgetItem(this->ui->twRootlist);
+        l->setText(0,QString("").setNum(i));
+        l->setText(1,QString::fromUtf8(sp_playlist_name(pl2))/*.append(QString("\n").setNum(sp_playlist_num_tracks(pl2)))*/);
+    }
 }
 
 
@@ -148,16 +159,64 @@ void MainWindow::on_LoginSucceeded(sp_session *s) {
     this->ui->swWidgets->setCurrentWidget(this->ui->pgInside);
     this->ui->wPlayercontrols->show();
 
-    qDebug() << "Getting rootlist";
+//    qDebug() << "Getting rootlist";
 
-    if(!this->sw->RequestRootlist(s)){
-        qDebug("Rootlist failed to load");
+//    if(!this->sw->RequestRootlist(s)){
+//        qDebug("Rootlist failed to load");
+//    }
+
+//    qDebug("Requesting toplist");
+//    if(!this->sw->RequestToplist(s)) {
+//        qDebug("Toplist request failed");
+//    }
+
+    /* Clear treeview */
+    this->ui->twPlaylist->clear();
+
+    /* Fetch playlist and check it's loaded */
+    sp_playlist *playlist = sw->GetStarredPlaylist(s);
+    if(playlist!=NULL&&sp_playlist_is_loaded(playlist)) {
+
+        /* Set this playlist to current */
+        this->sw->SetCurrentPlaylist(playlist);
+
+        /* Get track count */
+        int c = sp_playlist_num_tracks(playlist);
+        for(int i=0;i<c;i++){
+
+            /* Get track and check it's loaded */
+            sp_track *t = sp_playlist_track(playlist,i);
+            if(sp_track_is_loaded(t)) {
+
+                /* Concat artists */
+                QString t_artist = QString::fromUtf8(sp_artist_name(sp_track_artist(t,0)));
+                if(sp_track_num_artists (t) > 1) {
+                    for(int     j=1;j<sp_track_num_artists (t);j++) {
+                        t_artist += QString(" feat. ").append(QString::fromUtf8(sp_artist_name(sp_track_artist(t,j))));
+                    }
+                }
+
+                QString t_title = QString::fromUtf8(sp_track_name(t));
+                QString t_album = QString::fromUtf8(sp_album_name(sp_track_album(t)));
+                QString t_length = QString("%1:%2").arg((int)(sp_track_duration (t) / 60000),2,10,QChar('0')).arg((int)(sp_track_duration (t) % 60000 / 1000),2,10,QChar('0'));
+
+                /* Create and append new treeview item */
+                QTreeWidgetItem *t_item = new QTreeWidgetItem(this->ui->twPlaylist);
+
+                /* Print labels */
+                t_item->setText(0,QString("").setNum(i));
+                t_item->setText(1,t_title);
+                t_item->setText(2,t_artist);
+                t_item->setText(3,t_album);
+                t_item->setText(4,t_length);
+
+            }
+        }
+
+        /* Show playlist page */
+        this->ui->swWidgets->setCurrentWidget(this->ui->pgPlaylist);
     }
 
-    qDebug("Requesting toplist");
-    if(!this->sw->RequestToplist(s)) {
-        qDebug("Toplist request failed");
-    }
 }
 
 void MainWindow::on_ToplistbrowseLoaded(sp_toplistbrowse *tb, void *userdata) {
