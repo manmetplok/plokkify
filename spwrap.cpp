@@ -49,10 +49,10 @@ bool SPWrap::Initialize() {
     this->error = sp_session_create(&this->config, &this->session);
     this->session_mutex->unlock();
 
-    if (SP_ERROR_OK != this->error) {
-        this->last_error = sp_error_message(this->error);
-        return false;
-    }
+//    if (SP_ERROR_OK != this->error) {
+//        this->last_error = sp_error_message(this->error);
+//        return false;
+//    }
 
     /* Add playlistcontainer callbacks */
     sp_playlistcontainer_add_callbacks(sp_session_playlistcontainer(this->session),&pc_callbacks,NULL);

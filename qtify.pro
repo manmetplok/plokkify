@@ -39,9 +39,6 @@ FORMS += mainwindow.ui
 RESOURCES += resources.qrc
 OTHER_FILES += asd.txt
 
-LIBS += -L$$PWD/libspotify/lib/ -lspotify \
+LIBS += -lspotify \
     -lpulse \
     -lpulse-simple
-
-INCLUDEPATH += $$PWD/libspotify/include
-DEPENDPATH += $$PWD/libspotify/include
