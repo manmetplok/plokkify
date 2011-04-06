@@ -85,7 +85,7 @@ public:
     void SetCurrentPlaylist(sp_playlist *p);
     void SetCurrentSearch(sp_search *s);
     sp_playlist * GetCurrentPlaylist();
-    sp_playlist * GetStarredPlaylist();
+    sp_playlist * GetStarredPlaylist(sp_session *s);
     void PlayPlaylistTrack(int offset);
     void PlaySearchTrack(int offset);
     void PlayQueue(int dir);
