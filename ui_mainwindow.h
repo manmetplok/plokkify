@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed Apr 6 20:22:48 2011
-**      by: Qt User Interface Compiler version 4.7.0
+** Created: Wed Apr 6 21:02:38 2011
+**      by: Qt User Interface Compiler version 4.7.2
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -96,7 +96,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(800, 403);
+        MainWindow->resize(800, 404);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         verticalLayout_10 = new QVBoxLayout(centralWidget);
@@ -127,6 +127,7 @@ public:
         horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
         label = new QLabel(pgLogin);
         label->setObjectName(QString::fromUtf8("label"));
+        label->setEnabled(true);
         label->setMinimumSize(QSize(300, 300));
         label->setText(QString::fromUtf8(""));
         label->setPixmap(QPixmap(QString::fromUtf8(":/res/qtify.png")));
@@ -412,7 +413,7 @@ public:
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QString::fromUtf8("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 800, 23));
+        menuBar->setGeometry(QRect(0, 0, 800, 21));
         MainWindow->setMenuBar(menuBar);
 
         retranslateUi(MainWindow);
