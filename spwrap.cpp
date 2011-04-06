@@ -93,6 +93,7 @@ bool SPWrap::RequestRootlist(sp_session *s) {
 bool SPWrap::RequestToplist(sp_session *s) {
     sp_toplistbrowse *p;
     p = sp_toplistbrowse_create(s, SP_TOPLIST_TYPE_ALBUMS, SP_TOPLIST_REGION_USER, NULL, &toplistbrowse_loaded, NULL);
+
     if(p!=NULL) {
         return true;
     }

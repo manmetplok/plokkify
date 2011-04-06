@@ -48,6 +48,8 @@ MainWindow::MainWindow(QWidget *parent) :
             this->ui->leUsername->setText(QString(passtore.get_user().c_str()));
             this->ui->lePassword->setText(QString(passtore.get_dec().c_str()));
             this->ui->cbRemember->setChecked(true);
+
+            login();
         }
     }
 
@@ -71,8 +73,7 @@ void MainWindow::changeEvent(QEvent *e)
 
 }
 
-
-void MainWindow::on_pbLogin_clicked()
+void MainWindow::login (void)
 {
     QByteArray u = this->ui->leUsername->text().toUtf8();
     QByteArray p = this->ui->lePassword->text().toUtf8();
@@ -80,6 +81,11 @@ void MainWindow::on_pbLogin_clicked()
     qDebug() << u;
     if(!sw->Authenticate(u,p))
         qDebug()<<"Authentication attempt failed";
+}
+
+void MainWindow::on_pbLogin_clicked()
+{
+    login();
 }
 
 void MainWindow::on_LoginFailed(sp_session *s, sp_error e) {

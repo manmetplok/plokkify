@@ -47,6 +47,7 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+    void login (void);
 protected:
     void changeEvent(QEvent *e);
 
