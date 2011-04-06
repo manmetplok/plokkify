@@ -35,8 +35,13 @@ HEADERS += mainwindow.h \
     playback.h \
     mnenc.h
 FORMS += mainwindow.ui
-LIBS += -lopenspotify \
-    -lpulse \
-    -lpulse-simple
+
 RESOURCES += resources.qrc
 OTHER_FILES += asd.txt
+
+LIBS += -L$$PWD/libspotify/lib/ -lspotify \
+    -lpulse \
+    -lpulse-simple
+
+INCLUDEPATH += $$PWD/libspotify/include
+DEPENDPATH += $$PWD/libspotify/include

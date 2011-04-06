@@ -33,7 +33,7 @@ or implied, of Robin Nilsson.
 #define SPOTIFY_CPP_H
 
 extern "C" {
-    #include <spotify/api.h>
+    #include <libspotify/api.h>
 }
 
 #endif // SPOTIFY_CPP_H

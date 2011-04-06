@@ -46,7 +46,7 @@ bool SPWrap::Initialize() {
     this->config.callbacks = &g_callbacks;
 
     this->session_mutex->lock();
-    this->error = sp_session_init(&this->config, &this->session);
+    this->error = sp_session_create(&this->config, &this->session);
     this->session_mutex->unlock();
 
     if (SP_ERROR_OK != this->error) {
@@ -64,13 +64,8 @@ bool SPWrap::Initialize() {
 bool SPWrap::Authenticate(const char* u, const char* p) {
 
     this->session_mutex->lock();
-    this->error = sp_session_login(this->session, u, p);
+    sp_session_login(this->session, u, p);
     this->session_mutex->unlock();
-
-    if (SP_ERROR_OK != this->error) {
-        this->last_error = sp_error_message(this->error);
-        return false;
-    }
 
     return true;
 
@@ -97,10 +92,10 @@ bool SPWrap::RequestRootlist(sp_session *s) {
 
 bool SPWrap::RequestToplist(sp_session *s) {
     sp_toplistbrowse *p;
-    p = sp_toplistbrowse_create(s, SP_TOPLIST_TYPE_ALBUMS, SP_TOPLIST_REGION_MINE, &toplistbrowse_loaded, NULL);
-    if(p!=NULL) {
-        return true;
-    }
+//    p = sp_toplistbrowse_create(s, SP_TOPLIST_TYPE_ALBUMS, SP_TOPLIST_REGION_USER, 'ew', NULL);
+//    if(p!=NULL) {
+//        return true;
+//    }
     return false;
 
 }
@@ -173,11 +168,7 @@ void SPWrap::PlayTrack(sp_track *t) {
     emit this->PlayStateChanged(true);
 
     if(sp_session_player_load(this->session, t)==SP_ERROR_OK){
-        if(!sp_session_player_play(this->session, true)==SP_ERROR_OK) {
-            qDebug() << "Playback failed";
-            this->play_state = false;
-            emit this->PlayStateChanged(false);
-        }
+        sp_session_player_play(this->session, true);
     } else {
         qDebug()<<"Track failed to load";
         this->play_state = false;
@@ -249,19 +240,13 @@ void SPWrap::PlayPause() {
 
         AFifo.Flush();
 
-        if(!sp_session_player_play(this->session, false)==SP_ERROR_OK) {
-            qDebug() << "Pausing failed";
-        }
+        sp_session_player_play(this->session, false);
 
     } else {
         this->play_state = true;
         emit this->PlayStateChanged(true);
 
-        if(!sp_session_player_play(this->session, true)==SP_ERROR_OK) {
-            qDebug() << "Playback failed";
-            this->play_state = false;
-            emit this->PlayStateChanged(false);
-        }
+        sp_session_player_play(this->session, true) ;
 
     }
     this->session_mutex->unlock();
