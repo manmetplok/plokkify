@@ -121,6 +121,11 @@ void SPCallback::PlaylistRenamed(sp_playlist *pl, void *userdata){
     emit this->on_PlaylistRenamed(pl,userdata);
 }
 
+//void SPCallback::PlaylistStateChanged(sp_playlist *pl, void *userdata) {
+//    emit this->on_PlaylistStateChanged(pl,userdata);
+//}
+
+
 
 /* Toplist */
 void SPCallback::ToplistbrowseLoaded(sp_toplistbrowse *tlb, void* userdata) {

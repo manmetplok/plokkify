@@ -125,13 +125,13 @@ void MainWindow::on_RootlistLoaded(sp_playlistcontainer *pc,void *userdata) {
 
     /* Clear Treeview */
 
-    this->ui->twRootlist->clear();
+//    this->ui->twRootlist->clear();
     qDebug() << "Rootlist loaded";
     for(int i=0;i<sp_playlistcontainer_num_playlists(this->sw->pc);i++) {
         sp_playlist *pl2 = sp_playlistcontainer_playlist(this->sw->pc, i);
-        QTreeWidgetItem *l = new QTreeWidgetItem(this->ui->twRootlist);
-        l->setText(0,QString("").setNum(i));
-        l->setText(1,QString::fromUtf8(sp_playlist_name(pl2))/*.append(QString("\n").setNum(sp_playlist_num_tracks(pl2)))*/);
+//        QTreeWidgetItem *l = new QTreeWidgetItem(this->ui->twRootlist);
+//        l->setText(0,QString("").setNum(i));
+//        l->setText(1,QString::fromUtf8(sp_playlist_name(pl2))/*.append(QString("\n").setNum(sp_playlist_num_tracks(pl2)))*/);
     }
 }
 
@@ -140,13 +140,13 @@ void MainWindow::on_PlaylistRenamed(sp_playlist *pl, void *userdata) {
 
     /* Clear Treeview */
 
-    this->ui->twRootlist->clear();
+//    this->ui->twRootlist->clear();
     qDebug() << "Rootlist loaded";
     for(int i=0;i<sp_playlistcontainer_num_playlists(this->sw->pc);i++) {
         sp_playlist *pl2 = sp_playlistcontainer_playlist(this->sw->pc, i);
-        QTreeWidgetItem *l = new QTreeWidgetItem(this->ui->twRootlist);
-        l->setText(0,QString("").setNum(i));
-        l->setText(1,QString::fromUtf8(sp_playlist_name(pl2))/*.append(QString("\n").setNum(sp_playlist_num_tracks(pl2)))*/);
+//        QTreeWidgetItem *l = new QTreeWidgetItem(this->ui->twRootlist);
+//        l->setText(0,QString("").setNum(i));
+//        l->setText(1,QString::fromUtf8(sp_playlist_name(pl2))/*.append(QString("\n").setNum(sp_playlist_num_tracks(pl2)))*/);
     }
 
 }
@@ -165,23 +165,25 @@ void MainWindow::on_LoginSucceeded(sp_session *s) {
 //        qDebug("Rootlist failed to load");
 //    }
 
-//    qDebug("Requesting toplist");
-//    if(!this->sw->RequestToplist(s)) {
-//        qDebug("Toplist request failed");
-//    }
+    qDebug("Requesting toplist");
+    if(!this->sw->RequestToplist(s)) {
+        qDebug("Toplist request failed");
+    }
 
     /* Clear treeview */
     this->ui->twPlaylist->clear();
 
     /* Fetch playlist and check it's loaded */
     sp_playlist *playlist = sw->GetStarredPlaylist(s);
+    int c = sp_playlist_num_tracks(playlist);
+    qDebug() << "HALLOOO " << c;
+    qDebug() << "HALLOOO " << sp_playlist_is_loaded(playlist);
     if(playlist!=NULL&&sp_playlist_is_loaded(playlist)) {
 
         /* Set this playlist to current */
         this->sw->SetCurrentPlaylist(playlist);
 
         /* Get track count */
-        int c = sp_playlist_num_tracks(playlist);
         for(int i=0;i<c;i++){
 
             /* Get track and check it's loaded */
@@ -223,7 +225,7 @@ void MainWindow::on_ToplistbrowseLoaded(sp_toplistbrowse *tb, void *userdata) {
 
     if(sp_toplistbrowse_error(tb)==SP_ERROR_OK) {
         int cnt = sp_toplistbrowse_num_albums(tb);
-        if(cnt>8) cnt = 8;
+        if(cnt>12) cnt = 12;
 
         qDebug() << "    Ready to print toplistbrowse, " << cnt << " albums fetched";
 
@@ -256,25 +258,27 @@ void MainWindow::on_ImageLoaded(sp_image *image, void* userdata) {
     if(albumart != NULL) {
         QImage i;
         i.loadFromData(albumart,img_len,0);
-        i = i.scaled(QSize(100,100));
-
-        if(id == 0) {
-            this->ui->lblTopAlbum1->setPixmap(QPixmap::fromImage(i));
-        } else if(id == 1) {
-            this->ui->lblTopAlbum2->setPixmap(QPixmap::fromImage(i));
-        } else if(id == 2) {
-            this->ui->lblTopAlbum3->setPixmap(QPixmap::fromImage(i));
-        } else if(id == 3) {
-            this->ui->lblTopAlbum4->setPixmap(QPixmap::fromImage(i));
-        } else if(id == 4) {
-            this->ui->lblTopAlbum5->setPixmap(QPixmap::fromImage(i));
-        } else if(id == 5) {
-            this->ui->lblTopAlbum6->setPixmap(QPixmap::fromImage(i));
-        } else if(id == 6) {
-            this->ui->lblTopAlbum7->setPixmap(QPixmap::fromImage(i));
-        } else if(id == 7) {
-            this->ui->lblTopAlbum8->setPixmap(QPixmap::fromImage(i));
+        i = i.scaled(QSize(250,2502));
+        if (id < 12) { //TODO
+            this->ui->navigator->addAction(QPixmap::fromImage(i),id);
         }
+//        if(id == 0) {
+//            this->ui->lblTopAlbum1->setPixmap(QPixmap::fromImage(i));
+//        } else if(id == 1) {
+//            this->ui->lblTopAlbum2->setPixmap(QPixmap::fromImage(i));
+//        } else if(id == 2) {
+//            this->ui->lblTopAlbum3->setPixmap(QPixmap::fromImage(i));
+//        } else if(id == 3) {
+//            this->ui->lblTopAlbum4->setPixmap(QPixmap::fromImage(i));
+//        } else if(id == 4) {
+//            this->ui->lblTopAlbum5->setPixmap(QPixmap::fromImage(i));
+//        } else if(id == 5) {
+//            this->ui->lblTopAlbum6->setPixmap(QPixmap::fromImage(i));
+//        } else if(id == 6) {
+//            this->ui->lblTopAlbum7->setPixmap(QPixmap::fromImage(i));
+//        } else if(id == 7) {
+//            this->ui->lblTopAlbum8->setPixmap(QPixmap::fromImage(i));
+//        }
     }
 
 }

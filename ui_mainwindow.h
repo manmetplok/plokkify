@@ -1,8 +1,8 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Wed Apr 6 21:24:48 2011
-**      by: Qt User Interface Compiler version 4.7.2
+** Created: Thu Apr 7 22:39:29 2011
+**      by: Qt User Interface Compiler version 4.7.0
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
 ********************************************************************************/
@@ -23,13 +23,13 @@
 #include <QtGui/QMainWindow>
 #include <QtGui/QMenuBar>
 #include <QtGui/QPushButton>
-#include <QtGui/QScrollArea>
 #include <QtGui/QSlider>
 #include <QtGui/QSpacerItem>
 #include <QtGui/QStackedWidget>
 #include <QtGui/QTreeWidget>
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
+#include "padnavigator.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -57,25 +57,12 @@ public:
     QSpacerItem *horizontalSpacer;
     QWidget *pgInside;
     QHBoxLayout *horizontalLayout_4;
-    QVBoxLayout *verticalLayout_3;
-    QScrollArea *scrollArea;
-    QWidget *scrollAreaWidgetContents;
-    QHBoxLayout *horizontalLayout_7;
-    QVBoxLayout *verticalLayout_7;
-    QLabel *lblTopAlbum1;
-    QLabel *lblTopAlbum2;
-    QLabel *lblTopAlbum3;
-    QLabel *lblTopAlbum4;
-    QLabel *lblTopAlbum5;
-    QLabel *lblTopAlbum6;
-    QLabel *lblTopAlbum7;
-    QLabel *lblTopAlbum8;
     QVBoxLayout *verticalLayout_4;
-    QTreeWidget *twRootlist;
-    QHBoxLayout *horizontalLayout_5;
+    QVBoxLayout *verticalLayout_3;
+    PadNavigator *navigator;
     QLineEdit *leSearch;
-    QComboBox *cbSearch;
     QPushButton *pbSearch;
+    QComboBox *cbSearch;
     QWidget *pgPlaylist;
     QVBoxLayout *verticalLayout_5;
     QTreeWidget *twPlaylist;
@@ -195,137 +182,35 @@ public:
         horizontalLayout_4->setSpacing(3);
         horizontalLayout_4->setContentsMargins(3, 3, 3, 3);
         horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
-        verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setSpacing(0);
-        verticalLayout_3->setContentsMargins(0, 0, 0, 0);
-        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
-        scrollArea = new QScrollArea(pgInside);
-        scrollArea->setObjectName(QString::fromUtf8("scrollArea"));
-        scrollArea->setMaximumSize(QSize(120, 16777215));
-        scrollArea->setFrameShape(QFrame::NoFrame);
-        scrollArea->setFrameShadow(QFrame::Plain);
-        scrollArea->setLineWidth(0);
-        scrollArea->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        scrollArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        scrollArea->setWidgetResizable(true);
-        scrollAreaWidgetContents = new QWidget();
-        scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 120, 841));
-        horizontalLayout_7 = new QHBoxLayout(scrollAreaWidgetContents);
-        horizontalLayout_7->setSpacing(6);
-        horizontalLayout_7->setContentsMargins(11, 11, 11, 11);
-        horizontalLayout_7->setObjectName(QString::fromUtf8("horizontalLayout_7"));
-        verticalLayout_7 = new QVBoxLayout();
-        verticalLayout_7->setSpacing(3);
-        verticalLayout_7->setObjectName(QString::fromUtf8("verticalLayout_7"));
-        lblTopAlbum1 = new QLabel(scrollAreaWidgetContents);
-        lblTopAlbum1->setObjectName(QString::fromUtf8("lblTopAlbum1"));
-        lblTopAlbum1->setMinimumSize(QSize(100, 100));
-        lblTopAlbum1->setMaximumSize(QSize(100, 100));
-        lblTopAlbum1->setText(QString::fromUtf8(""));
-
-        verticalLayout_7->addWidget(lblTopAlbum1);
-
-        lblTopAlbum2 = new QLabel(scrollAreaWidgetContents);
-        lblTopAlbum2->setObjectName(QString::fromUtf8("lblTopAlbum2"));
-        lblTopAlbum2->setMinimumSize(QSize(100, 100));
-        lblTopAlbum2->setMaximumSize(QSize(100, 100));
-        lblTopAlbum2->setText(QString::fromUtf8(""));
-
-        verticalLayout_7->addWidget(lblTopAlbum2);
-
-        lblTopAlbum3 = new QLabel(scrollAreaWidgetContents);
-        lblTopAlbum3->setObjectName(QString::fromUtf8("lblTopAlbum3"));
-        lblTopAlbum3->setMinimumSize(QSize(100, 100));
-        lblTopAlbum3->setMaximumSize(QSize(100, 100));
-        lblTopAlbum3->setText(QString::fromUtf8(""));
-
-        verticalLayout_7->addWidget(lblTopAlbum3);
-
-        lblTopAlbum4 = new QLabel(scrollAreaWidgetContents);
-        lblTopAlbum4->setObjectName(QString::fromUtf8("lblTopAlbum4"));
-        lblTopAlbum4->setMinimumSize(QSize(100, 100));
-        lblTopAlbum4->setMaximumSize(QSize(100, 100));
-        lblTopAlbum4->setText(QString::fromUtf8(""));
-
-        verticalLayout_7->addWidget(lblTopAlbum4);
-
-        lblTopAlbum5 = new QLabel(scrollAreaWidgetContents);
-        lblTopAlbum5->setObjectName(QString::fromUtf8("lblTopAlbum5"));
-        lblTopAlbum5->setMinimumSize(QSize(100, 100));
-        lblTopAlbum5->setMaximumSize(QSize(100, 100));
-        lblTopAlbum5->setText(QString::fromUtf8(""));
-
-        verticalLayout_7->addWidget(lblTopAlbum5);
-
-        lblTopAlbum6 = new QLabel(scrollAreaWidgetContents);
-        lblTopAlbum6->setObjectName(QString::fromUtf8("lblTopAlbum6"));
-        lblTopAlbum6->setMinimumSize(QSize(100, 100));
-        lblTopAlbum6->setMaximumSize(QSize(100, 100));
-        lblTopAlbum6->setText(QString::fromUtf8(""));
-
-        verticalLayout_7->addWidget(lblTopAlbum6);
-
-        lblTopAlbum7 = new QLabel(scrollAreaWidgetContents);
-        lblTopAlbum7->setObjectName(QString::fromUtf8("lblTopAlbum7"));
-        lblTopAlbum7->setMinimumSize(QSize(100, 100));
-        lblTopAlbum7->setMaximumSize(QSize(100, 100));
-        lblTopAlbum7->setText(QString::fromUtf8(""));
-
-        verticalLayout_7->addWidget(lblTopAlbum7);
-
-        lblTopAlbum8 = new QLabel(scrollAreaWidgetContents);
-        lblTopAlbum8->setObjectName(QString::fromUtf8("lblTopAlbum8"));
-        lblTopAlbum8->setMinimumSize(QSize(100, 100));
-        lblTopAlbum8->setMaximumSize(QSize(100, 100));
-        lblTopAlbum8->setText(QString::fromUtf8(""));
-
-        verticalLayout_7->addWidget(lblTopAlbum8);
-
-
-        horizontalLayout_7->addLayout(verticalLayout_7);
-
-        scrollArea->setWidget(scrollAreaWidgetContents);
-
-        verticalLayout_3->addWidget(scrollArea);
-
-
-        horizontalLayout_4->addLayout(verticalLayout_3);
-
         verticalLayout_4 = new QVBoxLayout();
         verticalLayout_4->setSpacing(6);
         verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
-        twRootlist = new QTreeWidget(pgInside);
-        twRootlist->setObjectName(QString::fromUtf8("twRootlist"));
-        twRootlist->setAlternatingRowColors(true);
-        twRootlist->setRootIsDecorated(false);
-        twRootlist->setAllColumnsShowFocus(true);
-        twRootlist->setExpandsOnDoubleClick(false);
-        twRootlist->header()->setVisible(false);
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setSpacing(6);
+        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
+        verticalLayout_3->setContentsMargins(-1, 0, -1, -1);
+        navigator = new PadNavigator(pgInside);
+        navigator->setObjectName(QString::fromUtf8("navigator"));
 
-        verticalLayout_4->addWidget(twRootlist);
+        verticalLayout_3->addWidget(navigator);
 
-        horizontalLayout_5 = new QHBoxLayout();
-        horizontalLayout_5->setSpacing(6);
-        horizontalLayout_5->setObjectName(QString::fromUtf8("horizontalLayout_5"));
-        horizontalLayout_5->setContentsMargins(-1, 0, -1, -1);
         leSearch = new QLineEdit(pgInside);
         leSearch->setObjectName(QString::fromUtf8("leSearch"));
 
-        horizontalLayout_5->addWidget(leSearch);
-
-        cbSearch = new QComboBox(pgInside);
-        cbSearch->setObjectName(QString::fromUtf8("cbSearch"));
-
-        horizontalLayout_5->addWidget(cbSearch);
+        verticalLayout_3->addWidget(leSearch);
 
         pbSearch = new QPushButton(pgInside);
         pbSearch->setObjectName(QString::fromUtf8("pbSearch"));
 
-        horizontalLayout_5->addWidget(pbSearch);
+        verticalLayout_3->addWidget(pbSearch);
+
+        cbSearch = new QComboBox(pgInside);
+        cbSearch->setObjectName(QString::fromUtf8("cbSearch"));
+
+        verticalLayout_3->addWidget(cbSearch);
 
 
-        verticalLayout_4->addLayout(horizontalLayout_5);
+        verticalLayout_4->addLayout(verticalLayout_3);
 
 
         horizontalLayout_4->addLayout(verticalLayout_4);
@@ -418,7 +303,7 @@ public:
 
         retranslateUi(MainWindow);
 
-        swWidgets->setCurrentIndex(0);
+        swWidgets->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -429,31 +314,27 @@ public:
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0, QApplication::UnicodeUTF8));
         cbRemember->setText(QApplication::translate("MainWindow", "Remember", 0, QApplication::UnicodeUTF8));
         pbLogin->setText(QApplication::translate("MainWindow", "Log in", 0, QApplication::UnicodeUTF8));
-        QTreeWidgetItem *___qtreewidgetitem = twRootlist->headerItem();
-        ___qtreewidgetitem->setText(2, QApplication::translate("MainWindow", "Rename", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem->setText(1, QApplication::translate("MainWindow", "Name", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem->setText(0, QApplication::translate("MainWindow", "#", 0, QApplication::UnicodeUTF8));
+        pbSearch->setText(QApplication::translate("MainWindow", "Search", 0, QApplication::UnicodeUTF8));
         cbSearch->clear();
         cbSearch->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "Song", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Artist", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "Album", 0, QApplication::UnicodeUTF8)
         );
-        pbSearch->setText(QApplication::translate("MainWindow", "Search", 0, QApplication::UnicodeUTF8));
-        QTreeWidgetItem *___qtreewidgetitem1 = twPlaylist->headerItem();
+        QTreeWidgetItem *___qtreewidgetitem = twPlaylist->headerItem();
+        ___qtreewidgetitem->setText(5, QApplication::translate("MainWindow", "Popularity", 0, QApplication::UnicodeUTF8));
+        ___qtreewidgetitem->setText(4, QApplication::translate("MainWindow", "Duration", 0, QApplication::UnicodeUTF8));
+        ___qtreewidgetitem->setText(3, QApplication::translate("MainWindow", "Album", 0, QApplication::UnicodeUTF8));
+        ___qtreewidgetitem->setText(2, QApplication::translate("MainWindow", "Artist", 0, QApplication::UnicodeUTF8));
+        ___qtreewidgetitem->setText(1, QApplication::translate("MainWindow", "Track", 0, QApplication::UnicodeUTF8));
+        ___qtreewidgetitem->setText(0, QApplication::translate("MainWindow", "#", 0, QApplication::UnicodeUTF8));
+        QTreeWidgetItem *___qtreewidgetitem1 = twSearchSong->headerItem();
         ___qtreewidgetitem1->setText(5, QApplication::translate("MainWindow", "Popularity", 0, QApplication::UnicodeUTF8));
         ___qtreewidgetitem1->setText(4, QApplication::translate("MainWindow", "Duration", 0, QApplication::UnicodeUTF8));
         ___qtreewidgetitem1->setText(3, QApplication::translate("MainWindow", "Album", 0, QApplication::UnicodeUTF8));
         ___qtreewidgetitem1->setText(2, QApplication::translate("MainWindow", "Artist", 0, QApplication::UnicodeUTF8));
         ___qtreewidgetitem1->setText(1, QApplication::translate("MainWindow", "Track", 0, QApplication::UnicodeUTF8));
         ___qtreewidgetitem1->setText(0, QApplication::translate("MainWindow", "#", 0, QApplication::UnicodeUTF8));
-        QTreeWidgetItem *___qtreewidgetitem2 = twSearchSong->headerItem();
-        ___qtreewidgetitem2->setText(5, QApplication::translate("MainWindow", "Popularity", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem2->setText(4, QApplication::translate("MainWindow", "Duration", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem2->setText(3, QApplication::translate("MainWindow", "Album", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem2->setText(2, QApplication::translate("MainWindow", "Artist", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem2->setText(1, QApplication::translate("MainWindow", "Track", 0, QApplication::UnicodeUTF8));
-        ___qtreewidgetitem2->setText(0, QApplication::translate("MainWindow", "#", 0, QApplication::UnicodeUTF8));
         pbPrevious->setText(QString());
         pbPlaypause->setText(QString());
         pbNext->setText(QString());
