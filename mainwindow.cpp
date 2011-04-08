@@ -58,6 +58,9 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     delete ui;
+
+    if (sw)
+        delete sw;
 }
 
 void MainWindow::changeEvent(QEvent *e)
@@ -256,11 +259,11 @@ void MainWindow::on_ImageLoaded(sp_image *image, void* userdata) {
     int id = (intptr_t)userdata;
 
     if(albumart != NULL) {
-        QImage i;
+        QPixmap i;
         i.loadFromData(albumart,img_len,0);
-        i = i.scaled(QSize(250,2502));
+        i = i.scaled(QSize(250,250));
         if (id < 12) { //TODO
-            this->ui->navigator->addAction(QPixmap::fromImage(i),id);
+            this->ui->navigator->addAction(i,id);
         }
 //        if(id == 0) {
 //            this->ui->lblTopAlbum1->setPixmap(QPixmap::fromImage(i));

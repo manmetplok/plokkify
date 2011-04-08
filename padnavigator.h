@@ -62,7 +62,7 @@ class PadNavigator : public QGraphicsView
 public:
     explicit PadNavigator(QWidget *parent = 0);
     virtual ~PadNavigator();
-    void addAction(  QPixmap , int);
+    void addAction(QPixmap pixmap , int);
 protected:
     void resizeEvent(QResizeEvent *event);
 private:

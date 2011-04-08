@@ -67,7 +67,6 @@ FlippablePad::FlippablePad(const QSize &size, QGraphicsItem *parent)
 {
 
     this->width = size.width();
-    this->setFill(false);
     this->height = size.height();
 
     const QRectF iconRect(-100, -100, 200, 200);
@@ -94,7 +93,7 @@ RoundRectItem *FlippablePad::iconAt(int column, int row) const
     return iconGrid[row][column];
 }
 
-void FlippablePad::setIcon( QPixmap pixmap , int column, int row)
+void FlippablePad::setIcon( QPixmap pixmap, int column, int row)
 {
     iconGrid[row][column]->setPixmap(pixmap);
 }

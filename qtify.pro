@@ -18,7 +18,10 @@ SOURCES += main.cpp \
     spsearch.cpp \
     audio.cpp \
     playback.cpp \
-    mnenc.cpp
+    mnenc.cpp \
+    flippablepad.cpp \
+    padnavigator.cpp \
+    roundrectitem.cpp
 HEADERS += mainwindow.h \
     spwrap.h \
     spcallback.h \
@@ -33,7 +36,10 @@ HEADERS += mainwindow.h \
     spsearch.h \
     audio.h \
     playback.h \
-    mnenc.h
+    mnenc.h \
+    flippablepad.h \
+    padnavigator.h \
+    roundrectitem.h
 FORMS += mainwindow.ui
 
 RESOURCES += resources.qrc

@@ -54,7 +54,7 @@ public:
     FlippablePad(const QSize &size, QGraphicsItem *parent = 0);
 
     RoundRectItem *iconAt(int column, int row) const;
-    void setIcon(QPixmap  pixmap , int column, int row);
+    void setIcon( QPixmap pixmap , int column, int row);
 private:
     QVector<QVector<RoundRectItem *> > iconGrid;
     int height;

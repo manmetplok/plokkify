@@ -139,10 +139,10 @@ PadNavigator::PadNavigator( QWidget *parent)
 
 }
 
-void PadNavigator::addAction(  QPixmap  pixmap, int number){
+void PadNavigator::addAction(  QPixmap pixmap, int number){
     int row = number > 5 ? 1 : 0;
     int column = number > 5  ? number - 6 : number;
-    this->pad->setIcon(pixmap,column,row);
+    this->pad->setIcon(pixmap ,column,row);
 }
 
 //! [19]
