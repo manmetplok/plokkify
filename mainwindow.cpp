@@ -209,7 +209,8 @@ void MainWindow::on_LoginSucceeded(sp_session *s)
 
 void MainWindow::on_ToplistbrowseLoaded(sp_toplistbrowse *tb, void *userdata) {
 
-    if(sp_toplistbrowse_error(tb)==SP_ERROR_OK) {
+    if(sp_toplistbrowse_error(tb)==SP_ERROR_OK)
+    {
         int cnt = sp_toplistbrowse_num_albums(tb);
         if(cnt>12) cnt = 12;
 
@@ -229,44 +230,29 @@ void MainWindow::on_ToplistbrowseLoaded(sp_toplistbrowse *tb, void *userdata) {
 
             }
         }
-    } else {
+    } else
+    {
         qDebug() << "Error loading toplistbrowse: " << sp_toplistbrowse_error(tb);
     }
 }
 
-void MainWindow::on_ImageLoaded(sp_image *image, void* userdata) {
-
+void MainWindow::on_ImageLoaded(sp_image *image, void* userdata)
+{
     /* Get albumart */
     size_t img_len;
     const uchar* albumart = (const uchar*)sp_image_data(image,&img_len);
     int id = (intptr_t)userdata;
 
-    if(albumart != NULL) {
+    if(albumart != NULL)
+    {
         QPixmap i;
         i.loadFromData(albumart,img_len,0);
         i = i.scaled(QSize(250,250));
-        if (id < 12) { //TODO
+        if (id < 12)
+        { //TODO
             this->ui->navigator->addAction(i,id);
         }
-//        if(id == 0) {
-//            this->ui->lblTopAlbum1->setPixmap(QPixmap::fromImage(i));
-//        } else if(id == 1) {
-//            this->ui->lblTopAlbum2->setPixmap(QPixmap::fromImage(i));
-//        } else if(id == 2) {
-//            this->ui->lblTopAlbum3->setPixmap(QPixmap::fromImage(i));
-//        } else if(id == 3) {
-//            this->ui->lblTopAlbum4->setPixmap(QPixmap::fromImage(i));
-//        } else if(id == 4) {
-//            this->ui->lblTopAlbum5->setPixmap(QPixmap::fromImage(i));
-//        } else if(id == 5) {
-//            this->ui->lblTopAlbum6->setPixmap(QPixmap::fromImage(i));
-//        } else if(id == 6) {
-//            this->ui->lblTopAlbum7->setPixmap(QPixmap::fromImage(i));
-//        } else if(id == 7) {
-//            this->ui->lblTopAlbum8->setPixmap(QPixmap::fromImage(i));
-//        }
     }
-
 }
 
 void MainWindow::on_twRootlist_itemClicked(QTreeWidgetItem* item, int column)

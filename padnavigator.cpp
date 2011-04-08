@@ -138,9 +138,9 @@ PadNavigator::~PadNavigator(){
     delete pad;
 }
 
-void PadNavigator::addAction(  QPixmap pixmap, int number){
-    int row = number > 5 ? 1 : 0;
-    int column = number > 5  ? number - 6 : number;
+void PadNavigator::addAction(  QPixmap pixmap, int id){
+    int row = id > 5 ? 1 : 0;
+    int column = id > 5  ? id - 6 : id;
     this->pad->setIcon(pixmap ,column,row);
 }
 

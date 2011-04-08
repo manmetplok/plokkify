@@ -53,7 +53,7 @@ public:
     explicit PadNavigator (QWidget *parent = 0);
     virtual ~PadNavigator();
 
-    void addAction (QPixmap pixmap , int number);
+    void addAction (QPixmap pixmap , int id);
 
 protected:
     void resizeEvent(QResizeEvent *event);
