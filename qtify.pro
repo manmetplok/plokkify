@@ -5,6 +5,9 @@ TARGET = qtify
 TEMPLATE = app
 
 SOURCES += main.cpp \
+    roundrectitem.cpp \
+    flippablepad.cpp \
+    padnavigator.cpp \
     mainwindow.cpp \
     spwrap.cpp \
     spcallback.cpp \
@@ -20,6 +23,9 @@ SOURCES += main.cpp \
     playback.cpp \
     mnenc.cpp
 HEADERS += mainwindow.h \
+    roundrectitem.h \
+    flippablepad.h \
+    padnavigator.h \
     spwrap.h \
     spcallback.h \
     spotify_cpp.h \
