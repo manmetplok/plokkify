@@ -42,72 +42,49 @@
 
 #include <QtGui/QtGui>
 
-//! [0]
-RoundRectItem::RoundRectItem(const QRectF &bounds, const QColor &color,
+RoundRectItem::RoundRectItem(const QRectF &bounds,
+                             const QColor &color,
                              QGraphicsItem *parent)
-    : QGraphicsObject(parent), fillRect(false), bounds(bounds)
+    : QGraphicsObject(parent),
+      m_bounds(bounds)
 {
-    gradient.setStart(bounds.topLeft());
-    gradient.setFinalStop(bounds.bottomRight());
-    gradient.setColorAt(0, color);
-    gradient.setColorAt(1, color.dark(200));
     setCacheMode(ItemCoordinateCache);
-}
-//! [0]
 
-//! [1]
-QPixmap RoundRectItem::pixmap() const
-{
-    return pix;
+    m_gradient.setStart(bounds.topLeft());
+    m_gradient.setFinalStop(bounds.bottomRight());
+    m_gradient.setColorAt(0, color);
+    m_gradient.setColorAt(1, color.dark(200));
 }
-void RoundRectItem::setPixmap(const QPixmap &pixmap)
-{
-    pix = pixmap;
-    update();
-}
-//! [1]
 
-//! [2]
 QRectF RoundRectItem::boundingRect() const
 {
-    return bounds.adjusted(0, 0, 2, 2);
+    return m_bounds.adjusted(0, 0, 2, 2);
 }
-//! [2]
 
-//! [3]
 void RoundRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
                           QWidget *widget)
 {
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(m_gradient);
+
+    painter->drawRect(m_bounds);
+
+    if (!m_pix.isNull()) {
+        painter->scale(1, 1);
+        painter->drawPixmap((-m_pix.width() / 2)+20, (-m_pix.height() / 2)+20, m_pix);
+    }
+
     Q_UNUSED(option);
     Q_UNUSED(widget);
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(QColor(0, 0, 0, 0));
-//    painter->drawRoundRect(bounds.translated(2, 2));
-//! [3]
-//! [4]
-//    if (fillRect)
-//        painter->setBrush(QApplication::palette().brush(QPalette::Window));
-//    else
-        painter->setBrush(gradient);
-//    painter->setPen(QPen(Qt::black, 1));
-    painter->drawRect(bounds);
-//! [4]
-//! [5]
-    if (!pix.isNull()) {
-        painter->scale(1, 1);
-        painter->drawPixmap((-pix.width() / 2)+20, (-pix.height() / 2)+20, pix);
-    }
 }
-//! [5]
 
-//! [6]
-bool RoundRectItem::fill() const
+QPixmap RoundRectItem::pixmap() const
 {
-    return fillRect;
+    return m_pix;
 }
-void RoundRectItem::setFill(bool fill)
+
+void RoundRectItem::setPixmap(const QPixmap &pixmap)
 {
-    fillRect = fill;
+    m_pix = pixmap;
     update();
 }
-//! [6]
