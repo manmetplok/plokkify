@@ -80,7 +80,7 @@ FlippablePad::FlippablePad(const QSize &size, QGraphicsItem *parent)
             RoundRectItem *rect = new RoundRectItem(iconRect, iconColor, this);
             rect->setZValue(1);
             rect->setPos(posForLocation(x, y, size));
-//            rect->setPixmap(pixmaps.at(n++ % pixmaps.size()));
+
             iconGrid[y][x] = rect;
         }
     }
