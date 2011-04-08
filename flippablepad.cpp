@@ -44,39 +44,36 @@
 
 #define ICON_SIZE 250
 
-
-//! [0]
 static QRectF boundsFromSize(const QSize &size)
 {
     return QRectF((-size.width() / 2.0) * ICON_SIZE, (-size.height() / 2.0) * ICON_SIZE,
                   size.width() * ICON_SIZE, size.height() * ICON_SIZE);
 }
-//! [0]
 
-//! [1]
 static QPointF posForLocation(int column, int row, const QSize &size)
 {
     return QPointF(column * ICON_SIZE, row * ICON_SIZE)
         - QPointF((size.width() - 1) * ICON_SIZE/2, (size.height() - 1) * ICON_SIZE/2);
 }
-//! [1]
 
-//! [2]
 FlippablePad::FlippablePad(const QSize &size, QGraphicsItem *parent)
     : RoundRectItem(boundsFromSize(size), QColor(0, 0, 0, 0), parent)
 {
 
-    this->width = size.width();
-    this->height = size.height();
+    m_width = size.width();
+    m_height = size.height();
 
     const QRectF iconRect(-100, -100, 200, 200);
     const QColor iconColor(214, 240, 110, 128);
-    iconGrid.resize(size.height());
-    int n = 0;
 
-    for (int y = 0; y < size.height(); ++y) {
+    iconGrid.resize(size.height());
+
+    for (int y = 0; y < size.height(); ++y)
+    {
         iconGrid[y].resize(size.width());
-        for (int x = 0; x < size.width(); ++x) {
+
+        for (int x = 0; x < size.width(); ++x)
+        {
             RoundRectItem *rect = new RoundRectItem(iconRect, iconColor, this);
             rect->setZValue(1);
             rect->setPos(posForLocation(x, y, size));
@@ -85,10 +82,8 @@ FlippablePad::FlippablePad(const QSize &size, QGraphicsItem *parent)
         }
     }
 }
-//! [4]
 
-//! [5]
-RoundRectItem *FlippablePad::iconAt(int column, int row) const
+RoundRectItem* FlippablePad::iconAt(int column, int row) const
 {
     return iconGrid[row][column];
 }
@@ -97,5 +92,3 @@ void FlippablePad::setIcon( QPixmap pixmap, int column, int row)
 {
     iconGrid[row][column]->setPixmap(pixmap);
 }
-
-//! [5]

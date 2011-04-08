@@ -44,14 +44,11 @@
 #include <QtGui/QtGui>
 #include <QtOpenGL/QtOpenGL>
 
-PadNavigator::~PadNavigator(){
-    delete pad;
-}
-
 PadNavigator::PadNavigator( QWidget *parent)
     : QGraphicsView(parent)
 {
     QSize size(6,2);
+
     // Pad item
     this->pad = new FlippablePad(size);
 
@@ -68,7 +65,6 @@ PadNavigator::PadNavigator( QWidget *parent)
     smoothXSelection->setEasingCurve(QEasingCurve::InCurve);
     smoothYSelection->setEasingCurve(QEasingCurve::InCurve);
 
-//! [9]
     // Build the state machine
     QStateMachine *stateMachine = new QStateMachine(this);
 
@@ -82,7 +78,6 @@ PadNavigator::PadNavigator( QWidget *parent)
     stateMachine->addDefaultAnimation(smoothYSelection);
     stateMachine->setInitialState(frontState);
 
-//! [13]
     // Create substates for each icon; store in temporary grid.
     int columns = size.width();
     int rows = size.height();
@@ -139,16 +134,18 @@ PadNavigator::PadNavigator( QWidget *parent)
 
 }
 
+PadNavigator::~PadNavigator(){
+    delete pad;
+}
+
 void PadNavigator::addAction(  QPixmap pixmap, int number){
     int row = number > 5 ? 1 : 0;
     int column = number > 5  ? number - 6 : number;
     this->pad->setIcon(pixmap ,column,row);
 }
 
-//! [19]
 void PadNavigator::resizeEvent(QResizeEvent *event)
 {
     QGraphicsView::resizeEvent(event);
     fitInView(scene()->sceneRect(), Qt::KeepAspectRatio);
 }
-//! [19]

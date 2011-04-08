@@ -45,29 +45,21 @@
 #include <QtGui>
 #include "flippablepad.h"
 
-QT_BEGIN_NAMESPACE
-
-class QState;
-class QAction;
-class QPixmap;
-class QStateMachine;
-class Ui_Form;
-
-QT_END_NAMESPACE
-
-//! [0]
 class PadNavigator : public QGraphicsView
 {
     Q_OBJECT
+
 public:
-    explicit PadNavigator(QWidget *parent = 0);
+    explicit PadNavigator (QWidget *parent = 0);
     virtual ~PadNavigator();
-    void addAction(QPixmap pixmap , int);
+
+    void addAction (QPixmap pixmap , int number);
+
 protected:
     void resizeEvent(QResizeEvent *event);
+
 private:
-    FlippablePad *pad;
+    FlippablePad* pad;
 };
-//! [0]
 
 #endif // PADNAVIGATOR_H

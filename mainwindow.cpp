@@ -1,15 +1,15 @@
-#include <QDebug>
-#include <cstdio>
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include "spcallback.h"
 #include "sptoplist.h"
 #include "spimage.h"
 #include "mnenc.h"
 
+#include <QDebug>
+#include <cstdio>
+
 extern SPCallback spc;
-
-
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -91,8 +91,8 @@ void MainWindow::on_pbLogin_clicked()
     login();
 }
 
-void MainWindow::on_LoginFailed(sp_session *s, sp_error e) {
-
+void MainWindow::on_LoginFailed(sp_session *s, sp_error e)
+{
     QString sError;
     switch(e) {
     case SP_ERROR_BAD_USERNAME_OR_PASSWORD:
@@ -121,44 +121,27 @@ void MainWindow::on_LoginFailed(sp_session *s, sp_error e) {
     }
 
     this->ui->lbLoginError->setText(sError);
+
+    Q_UNUSED (s);
 }
 
-void MainWindow::on_RootlistLoaded(sp_playlistcontainer *pc,void *userdata) {
+void MainWindow::on_RootlistLoaded(sp_playlistcontainer *pc,void *userdata)
+{
     this->sw->pc = pc;
-
-    /* Clear Treeview */
-
-//    this->ui->twRootlist->clear();
-    qDebug() << "Rootlist loaded";
-    for(int i=0;i<sp_playlistcontainer_num_playlists(this->sw->pc);i++) {
-        sp_playlist *pl2 = sp_playlistcontainer_playlist(this->sw->pc, i);
-//        QTreeWidgetItem *l = new QTreeWidgetItem(this->ui->twRootlist);
-//        l->setText(0,QString("").setNum(i));
-//        l->setText(1,QString::fromUtf8(sp_playlist_name(pl2))/*.append(QString("\n").setNum(sp_playlist_num_tracks(pl2)))*/);
-    }
 }
 
 
-void MainWindow::on_PlaylistRenamed(sp_playlist *pl, void *userdata) {
-
-    /* Clear Treeview */
-
-//    this->ui->twRootlist->clear();
-    qDebug() << "Rootlist loaded";
-    for(int i=0;i<sp_playlistcontainer_num_playlists(this->sw->pc);i++) {
-        sp_playlist *pl2 = sp_playlistcontainer_playlist(this->sw->pc, i);
-//        QTreeWidgetItem *l = new QTreeWidgetItem(this->ui->twRootlist);
-//        l->setText(0,QString("").setNum(i));
-//        l->setText(1,QString::fromUtf8(sp_playlist_name(pl2))/*.append(QString("\n").setNum(sp_playlist_num_tracks(pl2)))*/);
-    }
-
+void MainWindow::on_PlaylistRenamed(sp_playlist *pl, void *userdata)
+{
 }
 
-void MainWindow::on_PlaylistAdded(sp_playlistcontainer *s, sp_playlist *p, int n, void *u) {
+void MainWindow::on_PlaylistAdded(sp_playlistcontainer *s, sp_playlist *p, int n, void *u)
+{
     this->on_PlaylistRenamed(p,u);
 }
 
-void MainWindow::on_LoginSucceeded(sp_session *s) {
+void MainWindow::on_LoginSucceeded(sp_session *s)
+{
     this->ui->swWidgets->setCurrentWidget(this->ui->pgInside);
     this->ui->wPlayercontrols->show();
 

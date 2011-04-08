@@ -35,6 +35,7 @@ or implied, of Robin Nilsson.
 
 #include <QMainWindow>
 #include <QTreeWidgetItem>
+
 #include "spwrap.h"
 
 namespace Ui {
