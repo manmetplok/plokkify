@@ -37,6 +37,7 @@ or implied, of Robin Nilsson.
 #include <QTreeWidgetItem>
 
 #include "spwrap.h"
+#include "playlist.h"
 
 namespace Ui {
     class MainWindow;
@@ -55,6 +56,8 @@ protected:
 private:
     Ui::MainWindow *ui;
     SPWrap *sw;
+
+    QSharedPointer<Playlist> m_starredPlaylist;
 
 public slots:
     void on_pbLogin_clicked();
@@ -89,6 +92,8 @@ private slots:
     void on_pbSearch_clicked();
     void on_twPlaylist_itemClicked(QTreeWidgetItem* item, int column);
     void on_twRootlist_itemClicked(QTreeWidgetItem* item, int column);
+
+    void on_playlistStateChanged (sp_playlist *pl);
 
 };
 

@@ -12,16 +12,16 @@ SOURCES += main.cpp \
     spwrap.cpp \
     spcallback.cpp \
     spmain.cpp \
-    sprootlist.cpp \
     spsession.cpp \
-    spplaylist.cpp \
     sptoplist.cpp \
     spimage.cpp \
     queue.cpp \
     spsearch.cpp \
     audio.cpp \
     playback.cpp \
-    mnenc.cpp
+    mnenc.cpp \
+    playlistcontainer.cpp \
+    playlist.cpp
 HEADERS += mainwindow.h \
     roundrectitem.h \
     flippablepad.h \
@@ -30,16 +30,16 @@ HEADERS += mainwindow.h \
     spcallback.h \
     spotify_cpp.h \
     spmain.h \
-    sprootlist.h \
     spsession.h \
-    spplaylist.h \
     sptoplist.h \
     spimage.h \
     queue.h \
     spsearch.h \
     audio.h \
     playback.h \
-    mnenc.h
+    mnenc.h \
+    playlistcontainer.h \
+    playlist.h
 FORMS += mainwindow.ui
 
 RESOURCES += resources.qrc

@@ -43,6 +43,9 @@ or implied, of Robin Nilsson.
 #include "queue.h"
 #include "playback.h"
 
+#include "playlistcontainer.h"
+#include "playlist.h"
+
 class SPWrap : public QObject {
     Q_OBJECT
 
@@ -52,6 +55,8 @@ private:
     sp_session *session;
     sp_playlist *current_playlist;
     sp_search *current_search;
+
+    PlaylistContainer m_playlistContainer;
 
     const char *last_error;
 

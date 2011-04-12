@@ -29,23 +29,49 @@ or implied, of Robin Nilsson.
 ------------------------------------------------------------------------------------------*/
 
 
-#ifndef SPROOTLIST_H
-#define SPROOTLIST_H
+#ifndef PLAYLIST_H
+#define PLAYLIST_H
+
+#include <QObject>
 
 #include "spotify_cpp.h"
-#include "spcallback.h"
 
-extern SPCallback spc;
+void tracks_added(sp_playlist *pl, sp_track * const *tracks,int num_tracks, int position, void *userdata);
+void tracks_removed(sp_playlist *pl, const int *tracks,int num_tracks, void *userdata);
+void tracks_moved(sp_playlist *pl, const int *tracks, int num_tracks, int new_position, void *userdata);
+void playlist_renamed(sp_playlist *pl, void *userdata);
+void playlist_state_changed(sp_playlist *pl, void *userdata);
 
-void playlist_added(sp_playlistcontainer *pc, sp_playlist *pl, int position, void *userdata);
-void playlist_removed(sp_playlistcontainer *pc, sp_playlist *pl, int position, void *userdata);
-void container_loaded(sp_playlistcontainer *pc, void *userdata);
-
-static sp_playlistcontainer_callbacks pc_callbacks = {
-    &playlist_added,
-    &playlist_removed,
+static sp_playlist_callbacks pl_callbacks = {
+    &tracks_added,
+    &tracks_removed,
+    &tracks_moved,
+    &playlist_renamed,
+    &playlist_state_changed,
     NULL,
-    &container_loaded
+    NULL
 };
 
-#endif // SPROOTLIST_H
+class Playlist : public QObject
+{
+    Q_OBJECT
+
+public:
+    Playlist (sp_playlist *playlist);
+    virtual ~Playlist ();
+
+    void on_tracks_added (sp_playlist *pl, sp_track * const *tracks,int num_tracks, int position);
+    void on_tracks_removed (sp_playlist *pl, const int *tracks,int num_tracks);
+    void on_tracks_moved(sp_playlist *pl, const int *tracks, int num_tracks, int new_position);
+    void on_playlist_renamed(sp_playlist *pl);
+    void on_playlist_state_changed(sp_playlist *pl);
+
+signals:
+    void stateChanged (sp_playlist *pl);
+
+private:
+    sp_playlist* m_spPlaylist;
+};
+
+
+#endif // PLAYLIST_H

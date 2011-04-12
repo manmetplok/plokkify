@@ -14,7 +14,6 @@ SPCallback::SPCallback() {
 
 /* Connected */
 void SPCallback::NotifyMainThread(sp_session *session){
-   qDebug() << "Callback received: Notify main thread";
    emit this->on_NotifyMainThread(session);
 }
 void SPCallback::LoginFailed(sp_session *session,sp_error error){

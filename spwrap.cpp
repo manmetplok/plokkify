@@ -1,8 +1,6 @@
 #include "spcallback.h"
 #include "spsession.h"
 #include "spwrap.h"
-#include "sprootlist.h"
-#include "spplaylist.h"
 #include "sptoplist.h"
 #include "spimage.h"
 #include "spsearch.h"
@@ -186,8 +184,6 @@ void SPWrap::PlayTrack(sp_track *t) {
 }
 
 void SPWrap::on_NotifyMainThread(sp_session *session) {
-
-    qDebug()  << "Main thread notified";
 
     /* Start main loop */
     if(!this->sm->isRunning()) {

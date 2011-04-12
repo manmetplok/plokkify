@@ -147,64 +147,25 @@ void MainWindow::on_LoginSucceeded(sp_session *s)
 
 //    qDebug() << "Getting rootlist";
 
-//    if(!this->sw->RequestRootlist(s)){
-//        qDebug("Rootlist failed to load");
+    if(!this->sw->RequestRootlist(s)){
+        qDebug("Rootlist failed to load");
+    }
+
+//    qDebug("Requesting toplist");
+//    if(!this->sw->RequestToplist(s)) {
+//        qDebug("Toplist request failed");
 //    }
 
-    qDebug("Requesting toplist");
-    if(!this->sw->RequestToplist(s)) {
-        qDebug("Toplist request failed");
-    }
-
-    /* Clear treeview */
-    this->ui->twPlaylist->clear();
+//    /* Clear treeview */
+//    this->ui->twPlaylist->clear();
 
     /* Fetch playlist and check it's loaded */
-    sp_playlist *playlist = sw->GetStarredPlaylist(s);
-    int c = sp_playlist_num_tracks(playlist);
-    qDebug() << "HALLOOO " << c;
-    qDebug() << "HALLOOO " << sp_playlist_is_loaded(playlist);
-    if(playlist!=NULL&&sp_playlist_is_loaded(playlist)) {
 
-        /* Set this playlist to current */
-        this->sw->SetCurrentPlaylist(playlist);
+    sp_playlist* playlist = sw->GetStarredPlaylist(s);
+    m_starredPlaylist = QSharedPointer<Playlist> (new Playlist (playlist));
 
-        /* Get track count */
-        for(int i=0;i<c;i++){
-
-            /* Get track and check it's loaded */
-            sp_track *t = sp_playlist_track(playlist,i);
-            if(sp_track_is_loaded(t)) {
-
-                /* Concat artists */
-                QString t_artist = QString::fromUtf8(sp_artist_name(sp_track_artist(t,0)));
-                if(sp_track_num_artists (t) > 1) {
-                    for(int     j=1;j<sp_track_num_artists (t);j++) {
-                        t_artist += QString(" feat. ").append(QString::fromUtf8(sp_artist_name(sp_track_artist(t,j))));
-                    }
-                }
-
-                QString t_title = QString::fromUtf8(sp_track_name(t));
-                QString t_album = QString::fromUtf8(sp_album_name(sp_track_album(t)));
-                QString t_length = QString("%1:%2").arg((int)(sp_track_duration (t) / 60000),2,10,QChar('0')).arg((int)(sp_track_duration (t) % 60000 / 1000),2,10,QChar('0'));
-
-                /* Create and append new treeview item */
-                QTreeWidgetItem *t_item = new QTreeWidgetItem(this->ui->twPlaylist);
-
-                /* Print labels */
-                t_item->setText(0,QString("").setNum(i));
-                t_item->setText(1,t_title);
-                t_item->setText(2,t_artist);
-                t_item->setText(3,t_album);
-                t_item->setText(4,t_length);
-
-            }
-        }
-
-        /* Show playlist page */
-        this->ui->swWidgets->setCurrentWidget(this->ui->pgPlaylist);
-    }
-
+    if (playlist)
+        connect(m_starredPlaylist.data(), SIGNAL(stateChanged(sp_playlist *)),this,SLOT(on_playlistStateChanged(sp_playlist *)));
 }
 
 void MainWindow::on_ToplistbrowseLoaded(sp_toplistbrowse *tb, void *userdata) {
@@ -486,4 +447,51 @@ void MainWindow::on_pbBack_clicked()
 void MainWindow::on_twSearchSong_itemClicked(QTreeWidgetItem* item, int column)
 {
     this->sw->PlaySearchTrack(item->text(0).toInt());
+}
+
+void MainWindow::on_playlistStateChanged (sp_playlist *playlist)
+{
+    int c = sp_playlist_num_tracks(playlist);
+    qDebug() << "HALLOOO " << c;
+    qDebug() << "HALLOOO " << sp_playlist_is_loaded(playlist);
+    if(playlist!=NULL&&sp_playlist_is_loaded(playlist)) {
+
+        /* Set this playlist to current */
+        this->sw->SetCurrentPlaylist(playlist);
+
+        /* Get track count */
+        for(int i=0;i<c;i++){
+
+            /* Get track and check it's loaded */
+            sp_track *t = sp_playlist_track(playlist,i);
+            if(sp_track_is_loaded(t)) {
+
+                /* Concat artists */
+                QString t_artist = QString::fromUtf8(sp_artist_name(sp_track_artist(t,0)));
+                if(sp_track_num_artists (t) > 1) {
+                    for(int     j=1;j<sp_track_num_artists (t);j++) {
+                        t_artist += QString(" feat. ").append(QString::fromUtf8(sp_artist_name(sp_track_artist(t,j))));
+                    }
+                }
+
+                QString t_title = QString::fromUtf8(sp_track_name(t));
+                QString t_album = QString::fromUtf8(sp_album_name(sp_track_album(t)));
+                QString t_length = QString("%1:%2").arg((int)(sp_track_duration (t) / 60000),2,10,QChar('0')).arg((int)(sp_track_duration (t) % 60000 / 1000),2,10,QChar('0'));
+
+                /* Create and append new treeview item */
+                QTreeWidgetItem *t_item = new QTreeWidgetItem(this->ui->twPlaylist);
+
+                /* Print labels */
+                t_item->setText(0,QString("").setNum(i));
+                t_item->setText(1,t_title);
+                t_item->setText(2,t_artist);
+                t_item->setText(3,t_album);
+                t_item->setText(4,t_length);
+
+            }
+        }
+
+        /* Show playlist page */
+        this->ui->swWidgets->setCurrentWidget(this->ui->pgPlaylist);
+    }
 }
