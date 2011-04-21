@@ -32,7 +32,13 @@ or implied, of Robin Nilsson.
 #ifndef PLAYLISTCONTAINER_H
 #define PLAYLISTCONTAINER_H
 
+#include <QObject>
+#include <QVector>
+#include <QSharedPointer>
+
 #include "spotify_cpp.h"
+
+#include "playlist.h"
 
 void playlist_added(sp_playlistcontainer *pc, sp_playlist *pl, int position, void *userdata);
 void playlist_removed(sp_playlistcontainer *pc, sp_playlist *pl, int position, void *userdata);
@@ -45,15 +51,29 @@ static sp_playlistcontainer_callbacks pc_callbacks = {
     &container_loaded
 };
 
-class PlaylistContainer
+class PlaylistContainer : public QObject
 {
+    Q_OBJECT
+
 public:
-    PlaylistContainer ();
+    PlaylistContainer (sp_session* session);
     virtual ~PlaylistContainer ();
 
     void on_playlist_added (sp_playlistcontainer *pc, sp_playlist *pl, int position);
     void on_playlist_removed (sp_playlistcontainer *pc, sp_playlist *pl, int position);
     void on_container_loaded(sp_playlistcontainer *pc);
+
+    QVector<QSharedPointer <Playlist> > playlists (void) {return m_playlists;}
+
+
+    sp_playlistcontainer* spPlaylistContainer (void) {return m_spPlaylistContainer;}
+signals:
+    void containerLoaded (sp_playlistcontainer *pc);
+
+private:
+    sp_playlistcontainer* m_spPlaylistContainer;
+
+    QVector<QSharedPointer <Playlist> > m_playlists;
 };
 
 #endif // PLAYLISTCONTAINER_H

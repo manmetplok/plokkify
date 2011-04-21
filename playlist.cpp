@@ -39,6 +39,11 @@ Playlist::~Playlist ()
         sp_playlist_remove_callbacks(m_spPlaylist, &pl_callbacks, this);
 }
 
+QString Playlist::name (void)
+{
+    return QString::fromUtf8( sp_playlist_name (m_spPlaylist) );
+}
+
 void Playlist::on_tracks_added (sp_playlist *pl, sp_track * const *tracks,int num_tracks, int position)
 {
     qDebug() << "TODO Playlist::on_tracks_added";

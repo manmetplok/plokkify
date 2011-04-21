@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>800</width>
-    <height>404</height>
+    <height>429</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,11 +22,14 @@
      <number>3</number>
     </property>
     <item>
-     <widget class="QStackedWidget" name="swWidgets">
+     <widget class="QTabWidget" name="swWidgets">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
-      <widget class="QWidget" name="pgLogin">
+      <widget class="QWidget" name="swLoginPage">
+       <attribute name="title">
+        <string>Login</string>
+       </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <spacer name="horizontalSpacer_2">
@@ -172,7 +175,10 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="pgInside">
+      <widget class="QWidget" name="swNavigatorPage">
+       <attribute name="title">
+        <string>Navigator</string>
+       </attribute>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <property name="spacing">
          <number>3</number>
@@ -181,51 +187,35 @@
          <number>3</number>
         </property>
         <item>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <item>
-           <layout class="QVBoxLayout" name="verticalLayout_3">
-            <property name="topMargin">
-             <number>0</number>
-            </property>
-            <item>
-             <widget class="PadNavigator" name="navigator"/>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="leSearch"/>
-            </item>
-            <item>
-             <widget class="QPushButton" name="pbSearch">
-              <property name="text">
-               <string>Search</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="cbSearch">
-              <item>
-               <property name="text">
-                <string>Song</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Artist</string>
-               </property>
-              </item>
-              <item>
-               <property name="text">
-                <string>Album</string>
-               </property>
-              </item>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
+         <widget class="PadNavigator" name="navigator"/>
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="pgPlaylist">
+      <widget class="QWidget" name="swPlaylistContainer">
+       <attribute name="title">
+        <string>Playlist container</string>
+       </attribute>
+       <layout class="QVBoxLayout" name="verticalLayout_7">
+        <item>
+         <widget class="QTreeWidget" name="playlistContainerList">
+          <column>
+           <property name="text">
+            <string>#</string>
+           </property>
+          </column>
+          <column>
+           <property name="text">
+            <string>Name</string>
+           </property>
+          </column>
+         </widget>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="swPlaylistPage">
+       <attribute name="title">
+        <string>Playlist</string>
+       </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_5">
         <property name="spacing">
          <number>3</number>
@@ -269,7 +259,10 @@
         </item>
        </layout>
       </widget>
-      <widget class="QWidget" name="pgSearchSong">
+      <widget class="QWidget" name="swSearchPage">
+       <attribute name="title">
+        <string>Search</string>
+       </attribute>
        <layout class="QVBoxLayout" name="verticalLayout_6">
         <property name="spacing">
          <number>3</number>
@@ -310,6 +303,39 @@
            </property>
           </column>
          </widget>
+        </item>
+        <item>
+         <layout class="QHBoxLayout" name="horizontalLayout_5">
+          <item>
+           <widget class="QLineEdit" name="leSearch"/>
+          </item>
+          <item>
+           <widget class="QComboBox" name="cbSearch">
+            <item>
+             <property name="text">
+              <string>Song</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Artist</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Album</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="pbSearch">
+            <property name="text">
+             <string>Search</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>

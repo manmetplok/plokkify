@@ -18,14 +18,19 @@ void container_loaded(sp_playlistcontainer *pc, void *userdata)
 }
 
 
-PlaylistContainer::PlaylistContainer ()
+PlaylistContainer::PlaylistContainer (sp_session* session)
 {
+    m_spPlaylistContainer = sp_session_playlistcontainer (session);
 
+    sp_playlistcontainer_add_callbacks (m_spPlaylistContainer, &pc_callbacks, this);
 }
 
 PlaylistContainer::~PlaylistContainer ()
 {
-
+    if (m_spPlaylistContainer)
+    {
+        sp_playlistcontainer_remove_callbacks (m_spPlaylistContainer, &pc_callbacks, this);
+    }
 }
 
 void PlaylistContainer::on_playlist_added (sp_playlistcontainer *pc, sp_playlist *pl, int position)
@@ -39,6 +44,17 @@ void PlaylistContainer::on_playlist_removed (sp_playlistcontainer *pc, sp_playli
 }
 
 void PlaylistContainer::on_container_loaded(sp_playlistcontainer *pc)
-{
-    qDebug() << "PlaylistContainer >> Nr of playlists loaded: " << sp_playlistcontainer_num_playlists (pc);
+{   
+    int c = sp_playlistcontainer_num_playlists (pc);
+
+    for (int i = 0; i < c; i++)
+    {
+        sp_playlist* sp_pl = sp_playlistcontainer_playlist (pc, i);
+
+        QSharedPointer <Playlist> playlist = QSharedPointer<Playlist>(new Playlist (sp_pl));
+
+        m_playlists.push_back (playlist);
+    }
+
+    emit containerLoaded (pc);
 }

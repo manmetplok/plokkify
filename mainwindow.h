@@ -50,6 +50,9 @@ public:
     ~MainWindow();
 
     void login (void);
+
+    void loadNavigator (void);
+    void loadStarredPlaylist (void);
 protected:
     void changeEvent(QEvent *e);
 
@@ -57,11 +60,11 @@ private:
     Ui::MainWindow *ui;
     SPWrap *sw;
 
+    QSharedPointer<PlaylistContainer> m_rootList;
     QSharedPointer<Playlist> m_starredPlaylist;
 
 public slots:
     void on_pbLogin_clicked();
-    void on_pushButton_clicked();
 
     void on_RootlistLoaded(sp_playlistcontainer *pc,void *userdata);
     void on_LoginFailed(sp_session *s,sp_error e);
@@ -88,13 +91,16 @@ private slots:
     void on_pbShuffle_clicked();
     void on_pbPrec_clicked();
     void on_pbNextSong_clicked();
-    void on_pushButton_2_clicked();
     void on_pbSearch_clicked();
+
+    void on_playlistContainerList_itemClicked (QTreeWidgetItem* item, int column);
     void on_twPlaylist_itemClicked(QTreeWidgetItem* item, int column);
     void on_twRootlist_itemClicked(QTreeWidgetItem* item, int column);
 
+    void on_containerLoaded(sp_playlistcontainer *pc);
     void on_playlistStateChanged (sp_playlist *pl);
 
+    void on_swWidgets_currentChanged(QWidget* newWidget);
 };
 
 #endif // MAINWINDOW_H

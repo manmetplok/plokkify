@@ -86,6 +86,22 @@ void MainWindow::login (void)
         qDebug()<<"Authentication attempt failed";
 }
 
+void MainWindow::loadNavigator (void)
+{
+    m_rootList = QSharedPointer<PlaylistContainer> (sw->createPlaylistContainer());
+
+    if (m_rootList)
+        connect(m_rootList.data(), SIGNAL(containerLoaded (sp_playlistcontainer *)),this,SLOT(on_containerLoaded(sp_playlistcontainer *)));
+}
+
+void MainWindow::loadStarredPlaylist (void)
+{
+    m_starredPlaylist = QSharedPointer<Playlist> (new Playlist (sw->GetStarredPlaylist()));
+
+    if (m_starredPlaylist)
+        connect(m_starredPlaylist.data(), SIGNAL(stateChanged(sp_playlist *)),this,SLOT(on_playlistStateChanged(sp_playlist *)));
+}
+
 void MainWindow::on_pbLogin_clicked()
 {
     login();
@@ -142,7 +158,7 @@ void MainWindow::on_PlaylistAdded(sp_playlistcontainer *s, sp_playlist *p, int n
 
 void MainWindow::on_LoginSucceeded(sp_session *s)
 {
-    this->ui->swWidgets->setCurrentWidget(this->ui->pgInside);
+    this->ui->swWidgets->setCurrentWidget (ui->swNavigatorPage);
     this->ui->wPlayercontrols->show();
 
 //    qDebug() << "Getting rootlist";
@@ -161,12 +177,7 @@ void MainWindow::on_LoginSucceeded(sp_session *s)
 
     /* Fetch playlist and check it's loaded */
 
-    sp_playlist* playlist = sw->GetStarredPlaylist(s);
-    m_starredPlaylist = QSharedPointer<Playlist> (new Playlist (playlist));
-
-    if (playlist)
-        connect(m_starredPlaylist.data(), SIGNAL(stateChanged(sp_playlist *)),this,SLOT(on_playlistStateChanged(sp_playlist *)));
-}
+    }
 
 void MainWindow::on_ToplistbrowseLoaded(sp_toplistbrowse *tb, void *userdata) {
 
@@ -273,8 +284,24 @@ void MainWindow::on_twRootlist_itemClicked(QTreeWidgetItem* item, int column)
             }
 
             /* Show playlist page */
-            this->ui->swWidgets->setCurrentWidget(this->ui->pgPlaylist);
+            this->ui->swWidgets->setCurrentWidget (ui->swPlaylistPage);
         }
+    }
+}
+
+void MainWindow::on_playlistContainerList_itemClicked (QTreeWidgetItem* item, int column)
+{
+    QVector< QSharedPointer< Playlist> > playlists = m_rootList->playlists();
+
+    int i = ui->playlistContainerList->indexOfTopLevelItem(item);
+
+    if (i < playlists.count())
+    {
+        // TODO encapsulate this in the container class
+        sp_playlist* sp_pl = sp_playlistcontainer_playlist (m_rootList->spPlaylistContainer(), i);
+
+        sw->SetCurrentPlaylist(sp_pl);
+        sw->PlayPlaylistTrack(0);
     }
 }
 
@@ -341,18 +368,9 @@ void MainWindow::on_SearchComplete(sp_search *s,void *userdata){
         }
 
         /* Show playlist page */
-        this->ui->swWidgets->setCurrentWidget(this->ui->pgSearchSong);
+        this->ui->swWidgets->setCurrentWidget (ui->swSearchPage);
 
     }/* Artist and album to be included later */
-}
-
-void MainWindow::on_pushButton_2_clicked()
-{
-        this->ui->swWidgets->setCurrentWidget(this->ui->pgInside);
-}
-void MainWindow::on_pushButton_clicked()
-{
-    this->ui->swWidgets->setCurrentWidget(this->ui->pgInside);
 }
 
 void MainWindow::on_pbNextSong_clicked()
@@ -441,7 +459,7 @@ void MainWindow::on_PlayStateChanged(bool s){
 
 void MainWindow::on_pbBack_clicked()
 {
-    this->ui->swWidgets->setCurrentWidget(this->ui->pgInside);
+    this->ui->swWidgets->setCurrentWidget (ui->swNavigatorPage);
 }
 
 void MainWindow::on_twSearchSong_itemClicked(QTreeWidgetItem* item, int column)
@@ -449,11 +467,23 @@ void MainWindow::on_twSearchSong_itemClicked(QTreeWidgetItem* item, int column)
     this->sw->PlaySearchTrack(item->text(0).toInt());
 }
 
+void MainWindow::on_containerLoaded(sp_playlistcontainer *pc)
+{
+    QVector< QSharedPointer< Playlist> > playlists = m_rootList->playlists();
+
+    int c = playlists.count();
+    for (int i=0; i<c; i++)
+    {
+        QTreeWidgetItem *t_item = new QTreeWidgetItem (ui->playlistContainerList);
+
+        t_item->setText(0, QString("").setNum(i));
+        t_item->setText(1, playlists.at(i)->name());
+    }
+}
+
 void MainWindow::on_playlistStateChanged (sp_playlist *playlist)
 {
     int c = sp_playlist_num_tracks(playlist);
-    qDebug() << "HALLOOO " << c;
-    qDebug() << "HALLOOO " << sp_playlist_is_loaded(playlist);
     if(playlist!=NULL&&sp_playlist_is_loaded(playlist)) {
 
         /* Set this playlist to current */
@@ -492,6 +522,14 @@ void MainWindow::on_playlistStateChanged (sp_playlist *playlist)
         }
 
         /* Show playlist page */
-        this->ui->swWidgets->setCurrentWidget(this->ui->pgPlaylist);
+        ui->swWidgets->setCurrentWidget (ui->swPlaylistPage);
     }
+}
+
+void MainWindow::on_swWidgets_currentChanged(QWidget* newWidget)
+{
+    if (newWidget == ui->swNavigatorPage)
+        loadNavigator();
+    if (newWidget == ui->swPlaylistPage)
+        loadStarredPlaylist();
 }

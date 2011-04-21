@@ -26,8 +26,6 @@ void SPCallback::LoginSucceeded(sp_session *session){
 }
 int SPCallback::MusicDelivery(sp_session *session, const sp_audioformat *format, const void *frames, int num_frames)
 {
-
-    qDebug() << "Deliver try";
     /* Check if we got any frames */
     if (num_frames == 0) {
         qDebug() << "No frames delivered, returning 0";
@@ -38,7 +36,6 @@ int SPCallback::MusicDelivery(sp_session *session, const sp_audioformat *format,
     if (AFifo.NumSamples() > format->sample_rate*16) {
         return 0;
     }
-        qDebug() << "Deliver success";
 
     /* Prepare PCM-data for queueing */
     AudioData * ad = new AudioData();

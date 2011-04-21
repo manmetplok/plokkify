@@ -44,16 +44,13 @@ bool SPWrap::Initialize() {
     this->config.callbacks = &g_callbacks;
 
     this->session_mutex->lock();
-    this->error = sp_session_create(&this->config, &this->session);
+    this->error = sp_session_create(&this->config, &this->m_session);
     this->session_mutex->unlock();
 
     if (SP_ERROR_OK != this->error) {
         this->last_error = sp_error_message(this->error);
         return false;
     }
-
-    /* Add playlistcontainer callbacks */
-    sp_playlistcontainer_add_callbacks(sp_session_playlistcontainer(this->session),&pc_callbacks,NULL);
 
     return true;
 
@@ -62,7 +59,7 @@ bool SPWrap::Initialize() {
 bool SPWrap::Authenticate(const char* u, const char* p) {
 
     this->session_mutex->lock();
-    sp_session_login(this->session, u, p);
+    sp_session_login(this->m_session, u, p);
     this->session_mutex->unlock();
 
     return true;
@@ -74,6 +71,11 @@ const char* SPWrap::GetLastError() {
 
     return this->last_error;
 
+}
+
+PlaylistContainer* SPWrap::createPlaylistContainer ()
+{
+    return new PlaylistContainer (m_session);
 }
 
 bool SPWrap::RequestRootlist(sp_session *s) {
@@ -99,8 +101,8 @@ bool SPWrap::RequestToplist(sp_session *s) {
 
 }
 
-sp_playlist * SPWrap::GetStarredPlaylist(sp_session * s) {
-    return sp_session_starred_create	(s);
+sp_playlist * SPWrap::GetStarredPlaylist() {
+    return sp_session_starred_create	(m_session);
 }
 
 
@@ -109,7 +111,7 @@ bool SPWrap::RequestImage(const byte *id,void *userdata) {
     sp_image *i;
 
     this->session_mutex->lock();
-    i = sp_image_create (this->session, id);
+    i = sp_image_create (this->m_session, id);
     this->session_mutex->unlock();
 
     sp_image_add_load_callback (i,  &image_loaded, userdata);
@@ -140,7 +142,6 @@ void SPWrap::PlayPlaylistTrack(int offset) {
     } else {
         qDebug() << "Invalid/Not loaded track";
     }
-
 }
 
 void SPWrap::PlaySearchTrack(int offset) {
@@ -163,15 +164,15 @@ void SPWrap::PlayTrack(sp_track *t) {
 
     this->session_mutex->lock();
 
-    sp_session_player_unload(this->session);
+    sp_session_player_unload(this->m_session);
 
     AFifo.Flush();
 
     this->play_state = true;
     emit this->PlayStateChanged(true);
 
-    if(sp_session_player_load(this->session, t)==SP_ERROR_OK){
-        sp_session_player_play(this->session, true);
+    if(sp_session_player_load(this->m_session, t)==SP_ERROR_OK){
+        sp_session_player_play(this->m_session, true);
     } else {
         qDebug()<<"Track failed to load";
         this->play_state = false;
@@ -188,7 +189,7 @@ void SPWrap::on_NotifyMainThread(sp_session *session) {
     /* Start main loop */
     if(!this->sm->isRunning()) {
         qDebug()  << "Main thread started";
-        this->sm->setSession(session);
+        this->sm->setSession(m_session);
         this->sm->start();
     }
 
@@ -204,7 +205,7 @@ void SPWrap::on_MusicDelivery(sp_session *session, const sp_audioformat *format,
 
 bool SPWrap::RequestSearch(const char *query,int num_tracks,int num_album, int num_artist) {
     this->session_mutex->lock();
-    sp_search *s = sp_search_create(this->session, query, 0, num_tracks, 0, num_album, 0, num_artist, &search_complete, NULL);
+    sp_search *s = sp_search_create(this->m_session, query, 0, num_tracks, 0, num_album, 0, num_artist, &search_complete, NULL);
     this->session_mutex->unlock();
     if(sp_search_error(s)==SP_ERROR_OK) {
         return true;
@@ -241,13 +242,13 @@ void SPWrap::PlayPause() {
 
         AFifo.Flush();
 
-        sp_session_player_play(this->session, false);
+        sp_session_player_play(this->m_session, false);
 
     } else {
         this->play_state = true;
         emit this->PlayStateChanged(true);
 
-        sp_session_player_play(this->session, true) ;
+        sp_session_player_play(this->m_session, true) ;
 
     }
     this->session_mutex->unlock();

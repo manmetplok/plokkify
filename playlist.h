@@ -60,16 +60,21 @@ public:
     Playlist (sp_playlist *playlist);
     virtual ~Playlist ();
 
+    QString name (void);
+
     void on_tracks_added (sp_playlist *pl, sp_track * const *tracks,int num_tracks, int position);
     void on_tracks_removed (sp_playlist *pl, const int *tracks,int num_tracks);
     void on_tracks_moved(sp_playlist *pl, const int *tracks, int num_tracks, int new_position);
     void on_playlist_renamed(sp_playlist *pl);
     void on_playlist_state_changed(sp_playlist *pl);
 
+    //sp_playlist* spPlaylist (void) {return m_spPlaylist;}
 signals:
     void stateChanged (sp_playlist *pl);
 
 private:
+    // TODO reference invalid when loading another playlist from the container??
+    // we cannot keep the reference here if it's invalidated
     sp_playlist* m_spPlaylist;
 };
 

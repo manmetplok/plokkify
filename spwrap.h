@@ -52,11 +52,9 @@ class SPWrap : public QObject {
 private:
     sp_session_config config;
     sp_error error;
-    sp_session *session;
+    sp_session *m_session;
     sp_playlist *current_playlist;
     sp_search *current_search;
-
-    PlaylistContainer m_playlistContainer;
 
     const char *last_error;
 
@@ -81,6 +79,8 @@ public:
     bool Authenticate(const char *u, const char *p);
     const char* GetLastError();
 
+    PlaylistContainer* createPlaylistContainer ();
+
     bool RequestRootlist(sp_session *s);
     bool RequestToplist(sp_session *s);
     bool RequestSearch(const char *query,int num_tracks,int num_album, int num_artist);
@@ -90,12 +90,16 @@ public:
     void SetCurrentPlaylist(sp_playlist *p);
     void SetCurrentSearch(sp_search *s);
     sp_playlist * GetCurrentPlaylist();
-    sp_playlist * GetStarredPlaylist(sp_session *s);
+    sp_playlist * GetStarredPlaylist();
+
     void PlayPlaylistTrack(int offset);
+
     void PlaySearchTrack(int offset);
     void PlayQueue(int dir);
     void ToggleShuffle();
     void PlayPause();
+
+    sp_session* session(void) {return m_session;}
 
 signals:
     void ShuffleStateChanged(bool);
